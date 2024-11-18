@@ -47,7 +47,7 @@ const WeatherApp = () => {
         <div className="weather">
           <img src={sunny} alt="sunny" />
           <div className="weather-type">{data.weather ? data.weather[0].main : null}</div>
-          <div className="temp">{data.main ? `${Math.floor(data.main.temp)}°${units === "imperial" && "F"}${units === "metric" && "C"}` : null}</div>
+          <div className="temp">{data.main ? (`${Math.floor(data.main.temp)}°`) : null}{data.main ? (units === "imperial" ? ("F") : ("C")) : null}</div>
         </div>
         <div className="weather-date">
           <p>Wed, Nov 13th, 2024</p>
@@ -56,12 +56,12 @@ const WeatherApp = () => {
           <div className="humidity">
             <div className="data-name">Humidity</div>
             <i className="fa-solid fa-droplet" />
-            <div className="data">{data.main ? data.main.humidity : null}%</div>
+            <div className="data">{data.main ? `${data.main.humidity}%` : null}</div>
           </div>
           <div className="wind">
             <div className="data-name">Wind</div>
             <i className="fa-solid fa-wind" />
-            <div className="data">{data.wind ? data.wind.speed : null} {units === "imperial" && "mph"}{units === "metric" && "km/h"}</div>
+            <div className="data">{data.wind ? data.wind.speed : null} {data.main ? (units === "imperial" ? ("mph") : ("km/h")) : null}</div>
           </div>
 
         </div>
