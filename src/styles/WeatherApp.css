@@ -186,9 +186,23 @@ footer {
   text-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.1);
   left: 50%;
   transform: translate(-50%);
+  white-space: nowrap;
 }
 
 footer a {
   color: #5c2a91;
   text-decoration: none;
+}
+
+@media (max-width: 500px) {
+  .weather img {
+    width: 100rem;
+    margin-top: -5rem;
+  }
+}
+
+@media (max-height: 850px) {
+  footer {
+    bottom: 2rem;
+  }
 }
