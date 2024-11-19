@@ -8,6 +8,7 @@ import loadingImg from "../assets/images/loading.gif";
 const WeatherApp = () => {
   const [data, setData] = useState([]);
   const [location, setLocation] = useState("");
+  const [lastLocation, setLastLocation] = useState("");
   const [units, setUnits] = useState("imperial");
   const [loading, setLoading] = useState(false);
   const api_key = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
@@ -15,15 +16,19 @@ const WeatherApp = () => {
   useEffect(() => {
     const fetchDefaultWeather = async () => {
       setLoading(true);
-      const defaultLocation = "los angeles";
+      let defaultLocation = "los angeles";
+      if (lastLocation.trim() !== "") {
+        defaultLocation = lastLocation;
+      };
       const url = `${import.meta.env.VITE_OPEN_WEATHER_CITY_URL}?q=${defaultLocation}&units=${units}&appid=${api_key}`;
       const response = await fetch(url);
       const defaultData = await response.json();
       setData(defaultData);
+      setLastLocation(defaultLocation);
       setLoading(false);
     };
     fetchDefaultWeather();
-  }, []);
+  }, [units]);
 
   const handleInputChange = (e) => {
     setLocation(e.target.value);
@@ -31,7 +36,6 @@ const WeatherApp = () => {
   
   const search = async () => {
     if (location.trim() !== "") {
-      // setLoading(true);
       const url = `${import.meta.env.VITE_OPEN_WEATHER_CITY_URL}?q=${location}&units=${units}&appid=${api_key}`;
       const response = await fetch(url);
       const searchData = await response.json();
@@ -39,6 +43,7 @@ const WeatherApp = () => {
         setData({notFound: true});
       } else {
         setData(searchData);
+        setLastLocation(location);
         setLocation("");
       };
       setLoading(false);
@@ -48,6 +53,14 @@ const WeatherApp = () => {
   const handleEnterKey = (e) => {
     if (e.key === "Enter") {
       search();
+    };
+  };
+
+  const toggleUnits = () => {
+    if (units === "imperial") {
+      setUnits("metric");
+    } else if (units === "metric") {
+      setUnits("imperial");
     };
   };
 
@@ -98,8 +111,11 @@ const WeatherApp = () => {
       <div className="weather-app" style={{backgroundImage: backgroundImage && backgroundImage.replace ? backgroundImage.replace("to right", "to top") : null}}>
         <div className="search">
           <div className="search-top">
-            <i className="fa-solid fa-location-dot" />
-            <div className="location">{data.name}</div>
+            <div className="search-location">
+              <i className="fa-solid fa-location-dot" />
+              <div className="location">{data.name}</div>
+            </div>
+            <div className="units-toggle" onClick={toggleUnits}>{units === "imperial" ? ("°C") : ("°F")}</div>
           </div>
           <div className="search-bar">
             <input type="text" placeholder="Enter Location" value={location} onChange={handleInputChange} onKeyDown={handleEnterKey} />
@@ -136,7 +152,7 @@ const WeatherApp = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default WeatherApp
+export default WeatherApp;

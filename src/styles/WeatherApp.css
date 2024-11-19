@@ -32,7 +32,27 @@
 .search-top {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   column-gap: 1rem;
+}
+
+.search-location {
+  display: flex;
+  column-gap: inherit;
+}
+
+.units-toggle {
+  display: flex;
+  width: 4rem;
+  justify-content: center;
+  background-color: transparent;
+  border: 0.2rem solid #676394;
+  border-radius: 3rem;
+  outline: none;
+  font-size: 1.6rem;
+  color: #484569;
+  cursor: pointer;
+  z-index: 1;
 }
 
 .search-top i {

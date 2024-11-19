@@ -7,7 +7,7 @@ const App = () => {
     <div>
       <WeatherApp />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
