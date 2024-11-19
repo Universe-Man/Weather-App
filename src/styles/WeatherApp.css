@@ -206,3 +206,15 @@ footer a {
     bottom: 2rem;
   }
 }
+
+@media (max-height: 750px) {
+  footer {
+    bottom: 0rem;
+  }
+}
+
+@media (max-height: 685px) {
+  footer {
+    display: none;
+  }
+}
