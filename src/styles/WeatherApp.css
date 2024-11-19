@@ -177,3 +177,18 @@
   font-size: 2rem;
   color:#2f2e57
 }
+
+footer {
+  position: absolute;
+  bottom: 5rem;
+  font-size: 2rem;
+  color: #2f2e57;
+  text-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  left: 50%;
+  transform: translate(-50%);
+}
+
+footer a {
+  color: #5c2a91;
+  text-decoration: none;
+}

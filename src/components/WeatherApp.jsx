@@ -107,51 +107,54 @@ const WeatherApp = () => {
   const formattedDate = `${currentDayOfWeek}, ${currentMonth} ${currentDayOfMonth}${dateSuffix(currentDayOfMonth)}, ${currentYear}`;
 
   return (
-    <div className="container" style={{backgroundImage}}>
-      <div className="weather-app" style={{backgroundImage: backgroundImage && backgroundImage.replace ? backgroundImage.replace("to right", "to top") : null}}>
-        <div className="search">
-          <div className="search-top">
-            <div className="search-location">
-              <i className="fa-solid fa-location-dot" />
-              <div className="location">{data.name}</div>
+    <>
+      <div className="container" style={{backgroundImage}}>
+        <div className="weather-app" style={{backgroundImage: backgroundImage && backgroundImage.replace ? backgroundImage.replace("to right", "to top") : null}}>
+          <div className="search">
+            <div className="search-top">
+              <div className="search-location">
+                <i className="fa-solid fa-location-dot" />
+                <div className="location">{data.name}</div>
+              </div>
+              <div className="units-toggle" onClick={toggleUnits}>{units === "imperial" ? ("°C") : ("°F")}</div>
             </div>
-            <div className="units-toggle" onClick={toggleUnits}>{units === "imperial" ? ("°C") : ("°F")}</div>
+            <div className="search-bar">
+              <input type="text" placeholder="Enter Location" value={location} onChange={handleInputChange} onKeyDown={handleEnterKey} />
+              <i className="fa-solid fa-magnifying-glass" onClick={search} />
+            </div>
           </div>
-          <div className="search-bar">
-            <input type="text" placeholder="Enter Location" value={location} onChange={handleInputChange} onKeyDown={handleEnterKey} />
-            <i className="fa-solid fa-magnifying-glass" onClick={search} />
-          </div>
+          {loading ? (
+            <img className="loader" src={loadingImg} alt="loading" />
+          ) : data.notFound ? (
+            <div className="not-found">Not Found 😵‍💫</div>
+          ) : (
+            <>
+              <div className="weather">
+                <img src={weatherImage} alt="weather-image" />
+                <div className="weather-type">{data.weather ? data.weather[0].main : null}</div>
+                <div className="temp">{data.main ? (`${Math.floor(data.main.temp)}°`) : null}{data.main ? (units === "imperial" ? ("F") : ("C")) : null}</div>
+              </div>
+              <div className="weather-date">
+                <p>{formattedDate}</p>
+              </div>
+              <div className="weather-data">
+                <div className="humidity">
+                  <div className="data-name">Humidity</div>
+                  <i className="fa-solid fa-droplet" />
+                  <div className="data">{data.main ? `${data.main.humidity}%` : null}</div>
+                </div>
+                <div className="wind">
+                  <div className="data-name">Wind</div>
+                  <i className="fa-solid fa-wind" />
+                  <div className="data">{data.wind ? data.wind.speed : null} {data.main ? (units === "imperial" ? ("mph") : ("km/h")) : null}</div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
-        {loading ? (
-          <img className="loader" src={loadingImg} alt="loading" />
-        ) : data.notFound ? (
-          <div className="not-found">Not Found 😵‍💫</div>
-        ) : (
-          <>
-            <div className="weather">
-              <img src={weatherImage} alt="weather-image" />
-              <div className="weather-type">{data.weather ? data.weather[0].main : null}</div>
-              <div className="temp">{data.main ? (`${Math.floor(data.main.temp)}°`) : null}{data.main ? (units === "imperial" ? ("F") : ("C")) : null}</div>
-            </div>
-            <div className="weather-date">
-              <p>{formattedDate}</p>
-            </div>
-            <div className="weather-data">
-              <div className="humidity">
-                <div className="data-name">Humidity</div>
-                <i className="fa-solid fa-droplet" />
-                <div className="data">{data.main ? `${data.main.humidity}%` : null}</div>
-              </div>
-              <div className="wind">
-                <div className="data-name">Wind</div>
-                <i className="fa-solid fa-wind" />
-                <div className="data">{data.wind ? data.wind.speed : null} {data.main ? (units === "imperial" ? ("mph") : ("km/h")) : null}</div>
-              </div>
-            </div>
-          </>
-        )}
       </div>
-    </div>
+      <footer>© {currentYear} | Built by <a href={import.meta.env.VITE_IAN_POLLACK_WEBSITE_URL} target="_blank">Ian Pollack</a></footer>
+    </>
   );
 };
 
