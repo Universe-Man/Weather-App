@@ -1,7 +1,7 @@
 .container {
   width: 100%;
   height: 100vh;
-  background-image: linear-gradient(to right, #f3b07c, #fcd283);
+  /* background-image: linear-gradient(to right, #f3b07c, #fcd283); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,7 +15,7 @@
 .weather-app {
   width: 35rem;
   height: 65rem;
-  background-image: linear-gradient(to top, #f3b07c, #fcd283);
+  /* background-image: linear-gradient(to top, #f3b07c, #fcd283); */
   border-radius: 3rem;
   display: flex;
   flex-direction: column;
