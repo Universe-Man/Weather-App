@@ -3,21 +3,24 @@ import sunny from "../assets/images/sunny.png";
 import cloudy from "../assets/images/cloudy.png";
 import rainy from "../assets/images/rainy.png";
 import snowy from "../assets/images/snowy.png";
-// import loading from "../assets/images/loading.gif";
+import loadingImg from "../assets/images/loading.gif";
 
 const WeatherApp = () => {
   const [data, setData] = useState([]);
   const [location, setLocation] = useState("");
   const [units, setUnits] = useState("imperial");
+  const [loading, setLoading] = useState(false);
   const api_key = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
 
   useEffect(() => {
     const fetchDefaultWeather = async () => {
+      setLoading(true);
       const defaultLocation = "los angeles";
       const url = `${import.meta.env.VITE_OPEN_WEATHER_CITY_URL}?q=${defaultLocation}&units=${units}&appid=${api_key}`;
       const response = await fetch(url);
       const defaultData = await response.json();
       setData(defaultData);
+      setLoading(false);
     };
     fetchDefaultWeather();
   }, []);
@@ -28,12 +31,17 @@ const WeatherApp = () => {
   
   const search = async () => {
     if (location.trim() !== "") {
+      // setLoading(true);
       const url = `${import.meta.env.VITE_OPEN_WEATHER_CITY_URL}?q=${location}&units=${units}&appid=${api_key}`;
       const response = await fetch(url);
       const searchData = await response.json();
-      console.log(searchData);
-      setData(searchData);
-      setLocation("");
+      if (searchData.cod !== 200) {
+        setData({notFound: true});
+      } else {
+        setData(searchData);
+        setLocation("");
+      };
+      setLoading(false);
     };
   };
 
@@ -98,27 +106,34 @@ const WeatherApp = () => {
             <i className="fa-solid fa-magnifying-glass" onClick={search} />
           </div>
         </div>
-        <div className="weather">
-          <img src={weatherImage} alt="weather-image" />
-          <div className="weather-type">{data.weather ? data.weather[0].main : null}</div>
-          <div className="temp">{data.main ? (`${Math.floor(data.main.temp)}°`) : null}{data.main ? (units === "imperial" ? ("F") : ("C")) : null}</div>
-        </div>
-        <div className="weather-date">
-          <p>{formattedDate}</p>
-        </div>
-        <div className="weather-data">
-          <div className="humidity">
-            <div className="data-name">Humidity</div>
-            <i className="fa-solid fa-droplet" />
-            <div className="data">{data.main ? `${data.main.humidity}%` : null}</div>
-          </div>
-          <div className="wind">
-            <div className="data-name">Wind</div>
-            <i className="fa-solid fa-wind" />
-            <div className="data">{data.wind ? data.wind.speed : null} {data.main ? (units === "imperial" ? ("mph") : ("km/h")) : null}</div>
-          </div>
-
-        </div>
+        {loading ? (
+          <img className="loader" src={loadingImg} alt="loading" />
+        ) : data.notFound ? (
+          <div className="not-found">Not Found 😵‍💫</div>
+        ) : (
+          <>
+            <div className="weather">
+              <img src={weatherImage} alt="weather-image" />
+              <div className="weather-type">{data.weather ? data.weather[0].main : null}</div>
+              <div className="temp">{data.main ? (`${Math.floor(data.main.temp)}°`) : null}{data.main ? (units === "imperial" ? ("F") : ("C")) : null}</div>
+            </div>
+            <div className="weather-date">
+              <p>{formattedDate}</p>
+            </div>
+            <div className="weather-data">
+              <div className="humidity">
+                <div className="data-name">Humidity</div>
+                <i className="fa-solid fa-droplet" />
+                <div className="data">{data.main ? `${data.main.humidity}%` : null}</div>
+              </div>
+              <div className="wind">
+                <div className="data-name">Wind</div>
+                <i className="fa-solid fa-wind" />
+                <div className="data">{data.wind ? data.wind.speed : null} {data.main ? (units === "imperial" ? ("mph") : ("km/h")) : null}</div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
