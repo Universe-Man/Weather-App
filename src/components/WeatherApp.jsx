@@ -20,7 +20,7 @@ const WeatherApp = () => {
       setData(defaultData);
     };
     fetchDefaultWeather();
-  }, [])  
+  }, []);
 
   const handleInputChange = (e) => {
     setLocation(e.target.value);
@@ -64,16 +64,15 @@ const WeatherApp = () => {
   };
 
   const backgroundImage = data.weather ? backgroundImages[data.weather[0].main.toLowerCase()] : "linear-gradient(to right, #f3b07c, #fcd283)";
+
   const currentDate = new Date();
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const currentDayOfWeek = daysOfWeek[currentDate.getDay()];
   const currentMonth = months[currentDate.getMonth()];
   const currentDayOfMonth = currentDate.getDate();
-  // const currentDayOfMonth = 31;
   const currentYear = currentDate.getFullYear();
   const dateSuffix = (currentDayOfMonth) => {
-    // if ([1, 21, 31].includes(currentDayOfMonth)) {}
     if (currentDayOfMonth % 10 === 1 && currentDayOfMonth !== 11) {
       return "st";
     } else if (currentDayOfMonth % 10 === 2 && currentDayOfMonth !== 12) {
