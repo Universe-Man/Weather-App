@@ -1,3 +1,11 @@
+Welcome to Weather App!
+
+To run locally, run "npm run dev" in your terminal.
+
+You can find the project running at http://localhost:3000 in the browser of your choice.
+
+Enter the name of a city to instantly see the current weather conditions of that city. Click on the Imperial / Metric toggle button in the upper-right to swap scales.
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
